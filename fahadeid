@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Celebrate Eid with Fahad</title>
+    <style>
+        /* Set animated background and colors */
+        body {
+            margin: 0;
+            height: 100vh;
+            background: url('https://media.giphy.com/media/3o6Zt8SsUggl5V70fO/giphy.gif') no-repeat center center fixed;
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: Arial, sans-serif;
+            color: #fff;
+            overflow: hidden;
+            animation: backgroundColor 10s infinite alternate;
+        }
+
+        /* Color transition animation for background */
+        @keyframes backgroundColor {
+            0% {
+                background-color: #ff99cc;
+            }
+            50% {
+                background-color: #ff66cc;
+            }
+            100% {
+                background-color: #ff3399;
+            }
+        }
+
+        /* Initial button centered */
+        .surprise-button {
+            padding: 20px 40px;
+            background-color: #FF1493;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 20px;
+            cursor: pointer;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10;
+        }
+
+        .surprise-button:hover {
+            background-color: #FF69B4;
+        }
+
+        /* Flying Heart Balloon styles */
+        .balloon {
+            position: absolute;
+            width: 60px;
+            height: 80px;
+            background-color: #FF0000;
+            border-radius: 50%;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+            display: none;
+            animation: flyBalloon 5s ease-in infinite;
+            z-index: 5;
+        }
+
+        .balloon::after {
+            content: '';
+            position: absolute;
+            width: 5px;
+            height: 30px;
+            background-color: #8B0000; /* Knot */
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        @keyframes flyBalloon {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Proceed and Read Message buttons at the bottom-right corner */
+        .proceed-button, .read-message-button {
+            padding: 20px 40px;
+            background-color: #32CD32;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 20px;
+            cursor: pointer;
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            display: none;
+        }
+
+        .proceed-button:hover {
+            background-color: #228B22;
+        }
+
+        .read-message-button {
+            background-color: #1E90FF; /* Blue */
+        }
+
+        .read-message-button:hover {
+            background-color: #4682B4;
+        }
+
+        /* Surprise gift basket */
+        .basket {
+            display: none;
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        .basket img {
+            width: 150px;
+            margin: 10px;
+        }
+
+        /* Popup with Eid Mubarak Message */
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(0, 0, 0, 0.8);
+            color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            width: 80%;
+            max-width: 600px;
+            text-align: center;
+            z-index: 10;
+        }
+
+        .popup h2 {
+            margin: 0;
+            font-size: 30px;
+        }
+
+        .popup p {
+            font-size: 18px;
+            margin: 20px 0;
+        }
+
+        .popup button {
+            padding: 10px 20px;
+            background-color: #FF4500;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Initial Surprise Button -->
+    <button class="surprise-button" onclick="showBalloons()">Click on Surprise</button>
+
+    <!-- Flying Heart Balloons -->
+    <div id="balloons-container"></div>
+
+    <!-- Proceed Button -->
+    <button class="proceed-button" onclick="showBasket()">Proceed</button>
+
+    <!-- Surprise Gift Basket -->
+    <div class="basket" id="basket">
+        <img src="https://via.placeholder.com/150x150.png?text=Dress" alt="Dress">
+        <img src="https://via.placeholder.com/150x150.png?text=Slippers" alt="Slippers">
+        <img src="https://via.placeholder.com/150x150.png?text=Bangles" alt="Bangles">
+        <img src="https://via.placeholder.com/150x150.png?text=Purse" alt="Purse">
+        <img src="https://via.placeholder.com/150x150.png?text=Bouquet" alt="Bouquet">
+    </div>
+
+    <!-- Read the Message Button -->
+    <button class="read-message-button" onclick="showPopup()">Read the Message</button>
+
+    <!-- Popup with Eid Mubarak Message -->
+    <div class="popup" id="popup">
+        <h2>Eid Mubarak, Fahad! 🌙</h2>
+        <p>May this Eid bring joy, peace, and prosperity to you and your loved ones. Let us celebrate together!</p>
+        <button onclick="closePopup()">Close</button>
+    </div>
+
+    <script>
+        // Function to show flying heart balloons with "Advance Eid Mubarak"
+        function showBalloons() {
+            const balloonCount = 5;  // Number of balloons to show
+            const balloonsContainer = document.getElementById("balloons-container");
+
+            // Remove the initial surprise button when clicked
+            document.querySelector('.surprise-button').style.display = 'none';
+
+            for (let i = 0; i < balloonCount; i++) {
+                const balloon = document.createElement("div");
+                balloon.classList.add("balloon");
+                balloon.style.left = `${Math.random() * 100}vw`; // Randomize horizontal position
+                balloon.style.animationDuration = `${Math.random() * 2 + 3}s`; // Randomize speed
+                balloon.innerHTML = '<span style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); 
+
+color: white; font-size: 12px;">Advance Eid Mubarak</span>';
+                balloonsContainer.appendChild(balloon);
+                balloon.style.display = 'block';
+            }
+
+            // Show the Proceed button after the balloons start flying
+            setTimeout(() => {
+                document.querySelector('.proceed-button').style.display = 'inline-block';
+            }, 4000);
+        }
+
+        // Function to show the surprise gift basket
+        function showBasket() {
+            // Hide the Proceed button
+            document.querySelector('.proceed-button').style.display = 'none';
+            
+            // Show the gift basket and the "Read the Message" button
+            document.getElementById("basket").style.display = "block";
+            document.querySelector('.read-message-button').style.display = 'inline-block';
+        }
+
+        // Function to show the popup with Eid message
+        function showPopup() {
+            document.getElementById("popup").style.display = "block";
+        }
+
+        // Function to close the popup
+        function closePopup() {
+            document.getElementById("popup").style.display = "none";
+        }
+    </script>
+
+</body>
+</html>
